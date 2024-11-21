@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="box1">
+        <img src="./icon1.svg" alt="">
+        <p class="text1">БАНК</p>
+        <p class="text2">БИЗНЕС</p>
+        <p class="text3">ИНВЕСТИЦИИ</p>
+        <p class="text4">СТРАХОВАНИЕ</p>
+        <p class="text5">МОБАЙЛ</p>
+        <p class="text6">ПУТЕШЕСТВИЯ</p>
+        <p class="text7">РАЗВЛЕЧЕНИЯ</p>
+        <div class="box2">
+            <p class="text8">ВОЙТИ</p>
+        </div>
+    </div>
+
+    <h1 class="basliq1">Конвертер валют онлайн</h3>
+        <div class="box3">
+        <div class="box4">
+            <p class="text9">У меня есть </p>
+            <table  class="table1" border="1px">
+                <tr>
+                    <td class="cedvel1">RUB</td>
+                    <td class="cedvel2">USD</td>
+                    <td class="cedvel3">EUR</td>
+                    <td class="cedvel4">GBP</td>
+                </tr>
+            </table>
+            <form>
+                <input class="input1" type="text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
+            </form>
+            <p class="text11"></p>
+        </div>
+        <div class="box5">
+            <p class="text10">Хочу приобрести</p>
+            <table class="table2" border="1px">
+                <tr>
+                    <td class="cedvel11">RUB</td>
+                    <td class="cedvel21">USD</td>
+                    <td class="cedvel31">EUR</td>
+                    <td class="cedvel41">GBP</td>
+                </tr>
+            </table>
+            <form>
+                <input class="input2" type="text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');">
+            </form>
+            <p class="text12"></p>
+        </div>
+    </div>
+<script src="./app.js"></script>    
+</body>
+</html>
