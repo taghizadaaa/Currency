@@ -20,6 +20,7 @@ let text12 = document.querySelector(".text12");
 let solAd = "USD"; 
 let sagAd = "RUB"; 
 let rates = {};    
+
 async function fetchExchangeRates() {
     try {
         let response = await fetch('https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_ePwYxikduilkO3NGz9uUPbfAgkr1ZuKDrBDgJZAt');
@@ -31,7 +32,6 @@ async function fetchExchangeRates() {
         return null;
     }
 }
-
 
 function updateCurrencyDetails() {
     let solRate = rates[solAd];
@@ -46,26 +46,24 @@ function updateCurrencyDetails() {
         sagEmsal = 1;
     }
 
-    text11.innerText = `1 ${solAd} = ${solEmsal === 1 ? solEmsal : solEmsal.toFixed(4)} ${sagAd}`;
-    text12.innerText = `1 ${sagAd} = ${sagEmsal === 1 ? sagEmsal : sagEmsal.toFixed(4)} ${solAd}`;
+    text11.innerText = `1 ${solAd} = ${solEmsal === 1 ? Math.round(solEmsal) : solEmsal.toFixed(5)} ${sagAd}`;
+    text12.innerText = `1 ${sagAd} = ${sagEmsal === 1 ? Math.round(sagEmsal) : sagEmsal.toFixed(5)} ${solAd}`;
 
     recalculateInputs(solEmsal, sagEmsal);
 }
 
 function recalculateInputs(solEmsal, sagEmsal) {
     let leftValue = parseFloat(input1.value);
-    if (!isNaN(leftValue)) {
+    if (!isNaN(leftValue) && leftValue !== "") {
         let result = leftValue * solEmsal;
 
         if (result > 0) {
-            if (result % 1 === 0) {
-                input2.value = Math.round(result);
-            } else {
-                input2.value = result.toFixed(2);
-            }
+            input2.value = result % 1 === 0 ? Math.round(result) : result.toFixed(5);
         } else {
             input2.value = ""; 
         }
+    } else {
+        input2.value = "";
     }
 }
 
@@ -107,6 +105,66 @@ input1.addEventListener("input", () => {
     let sagEmsal = solRate / sagRate;
 
     if (solRate && sagRate) {
-        recalculateInputs(solEmsal, sagEmsal);
+        let leftValue = parseFloat(input1.value);
+        if (leftValue === "") {
+        } else if (!isNaN(leftValue) && leftValue !== "") {
+            let result = leftValue * solEmsal;
+
+            if (result > 0) {
+                input2.value = result % 1 === 0 ? Math.round(result) : result.toFixed(5);
+            } else {
+                input2.value = ""; 
+            }
+        }
     }
 });
+
+input2.addEventListener("input", () => {
+    let solRate = rates[solAd];
+    let sagRate = rates[sagAd];
+    let solEmsal = sagRate / solRate;
+    let sagEmsal = solRate / sagRate;
+
+    if (solRate && sagRate) {
+        let rightValue = parseFloat(input2.value);
+
+        if (rightValue === "") {
+        } else if (!isNaN(rightValue) && rightValue !== "") {
+            let result = rightValue * sagEmsal;
+
+            if (result > 0) {
+                input1.value = result % 1 === 0 ? Math.round(result) : result.toFixed(5);
+            }
+        }
+    }
+});
+
+input2.addEventListener("focus", () => {
+    let solRate = rates[solAd];
+    let sagRate = rates[sagAd];
+    let solEmsal = sagRate / solRate;
+    let sagEmsal = solRate / sagRate;
+
+    if (solRate && sagRate) {
+        let rightValue = parseFloat(input2.value);
+        if (!isNaN(rightValue) && rightValue !== "") {
+            let result = rightValue * sagEmsal;
+
+            if (result > 0) {
+                input1.value = result % 1 === 0 ? Math.round(result) : result.toFixed(5);
+            }
+        }
+    }
+});
+
+function clearInputs() {
+    if (input1.value === "") {
+        input2.value = "";
+    }
+    if (input2.value === "") {
+        input1.value = "";
+    }
+}
+
+input1.addEventListener("input", clearInputs);
+input2.addEventListener("input", clearInputs);
